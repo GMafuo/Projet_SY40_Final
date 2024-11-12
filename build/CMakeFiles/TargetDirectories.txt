@@ -1,0 +1,4 @@
+/home/mathiew/Projet_SY40_Final/build/CMakeFiles/serveur.dir
+/home/mathiew/Projet_SY40_Final/build/CMakeFiles/client.dir
+/home/mathiew/Projet_SY40_Final/build/CMakeFiles/edit_cache.dir
+/home/mathiew/Projet_SY40_Final/build/CMakeFiles/rebuild_cache.dir
