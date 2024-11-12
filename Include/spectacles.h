@@ -24,9 +24,10 @@ typedef struct {
     int categorie_suggeree;
 } ReponseReservation;
 
-// Déclaration de la fonction trouver_alternative
+// Prototypes de fonctions ajoutées
+void ajouter_spectacle(Spectacle *spectacles, int *nb_spectacles, int id, int places[]);
+void annuler_reservation(Spectacle *spectacle, int categorie);
 int trouver_alternative(Spectacle spectacle);
-
-void envoyer_demande_reservation(int msgid_demande, int user_id, int spectacle_id, int categorie);
+void afficher_spectacles(Spectacle *spectacles, int nb_spectacles);
 
 #endif // SPECTACLES_H

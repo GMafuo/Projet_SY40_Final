@@ -1,22 +1,34 @@
-//
-// Created by simon on 12/11/24.
-//
-// main.c
-#include <sys/msg.h>
+/*
+ * Serveur de réservation pour le distributeur de tickets
+ * - Reçoit les demandes de réservation des clients
+ * - Vérifie les places disponibles et confirme ou propose une alternative
+ * - Gestion des spectacles et des réservations
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
-#include "../Include/ipc_utils.h"
+#include <sys/msg.h>
 #include "../Include/spectacles.h"
+#include "../Include/ipc_utils.h"
 
-void traiter_demandes_reservation(int msgid_demande, int msgid_reponse, Spectacle spectacles[], int nb_spectacles) {
+int msgid_demande, msgid_reponse;
+
+// Fonction de nettoyage pour supprimer les files de messages à la fin
+void nettoyer_ressources() {
+    delete_msg_queue(msgid_demande);
+    delete_msg_queue(msgid_reponse);
+}
+
+// Fonction principale de traitement des demandes de réservation
+void traiter_demandes_reservation(Spectacle spectacles[], int nb_spectacles) {
     DemandeReservation demande;
     ReponseReservation reponse;
 
     while (1) {
         // Lire la demande dans la file de messages
-        if (msgrcv(msgid_demande, &demande, sizeof(DemandeReservation) - sizeof(long), 0, 0) == -1) {
-            perror("Erreur lors de la réception de la demande de réservation");
-            exit(1);
+        if (recevoir_message(msgid_demande, &demande, sizeof(DemandeReservation) - sizeof(long), 0) == -1) {
+            perror("Erreur : Impossible de recevoir la demande de réservation");
+            continue;
         }
 
         printf("Demande reçue de l'utilisateur %d pour le spectacle %d, catégorie %d\n", demande.user_id, demande.spectacle_id, demande.categorie);
@@ -37,27 +49,27 @@ void traiter_demandes_reservation(int msgid_demande, int msgid_reponse, Spectacl
 
         // Envoyer la réponse à l'utilisateur
         reponse.type = demande.user_id;
-        if (msgsnd(msgid_reponse, &reponse, sizeof(ReponseReservation) - sizeof(long), 0) == -1) {
-            perror("Erreur lors de l'envoi de la réponse de réservation");
-            exit(1);
+        if (envoyer_message(msgid_reponse, &reponse, sizeof(ReponseReservation) - sizeof(long)) == -1) {
+            perror("Erreur : Envoi de la réponse de réservation échoué");
         }
     }
 }
 
 int main() {
-    int msgid_demande = create_msg_queue(MSG_KEY_DEMANDE);
-    int msgid_reponse = create_msg_queue(MSG_KEY_REPONSE);
+    msgid_demande = create_msg_queue(MSG_KEY_DEMANDE);
+    msgid_reponse = create_msg_queue(MSG_KEY_REPONSE);
 
+    // Enregistrer la fonction de nettoyage pour la fin du programme
+    atexit(nettoyer_ressources);
+
+    // Initialiser les spectacles
     Spectacle spectacles[2] = {
         {0, {5, 3, 2}}, // Spectacle 0 avec 5 places VIP, 3 Standard, 2 Économique
         {1, {2, 4, 1}}  // Spectacle 1 avec 2 places VIP, 4 Standard, 1 Économique
     };
 
-    traiter_demandes_reservation(msgid_demande, msgid_reponse, spectacles, 2);
-
-    delete_msg_queue(msgid_demande);
-    delete_msg_queue(msgid_reponse);
+    printf("Serveur prêt à recevoir des demandes...\n");
+    traiter_demandes_reservation(spectacles, 2);
 
     return 0;
 }
-
