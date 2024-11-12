@@ -119,6 +119,10 @@ CMakeFiles/serveur.dir/Sources/main.c.o: /home/mathiew/Projet_SY40_Final/Sources
   /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h \
   /usr/include/alloca.h \
   /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+  /usr/include/string.h \
+  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
+  /usr/include/strings.h \
   /usr/include/x86_64-linux-gnu/sys/msg.h \
   /usr/include/x86_64-linux-gnu/sys/ipc.h \
   /usr/include/x86_64-linux-gnu/bits/ipctypes.h \
@@ -159,6 +163,8 @@ CMakeFiles/serveur.dir/Sources/spectacles.c.o: /home/mathiew/Projet_SY40_Final/S
   /usr/include/x86_64-linux-gnu/bits/floatn-common.h
 
 
+/usr/include/strings.h:
+
 /usr/include/alloca.h:
 
 /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h:
@@ -170,6 +176,8 @@ CMakeFiles/serveur.dir/Sources/spectacles.c.o: /home/mathiew/Projet_SY40_Final/S
 /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h:
 
 /usr/include/x86_64-linux-gnu/sys/types.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/__locale_t.h:
 
 /usr/include/stdio.h:
 
@@ -225,6 +233,8 @@ CMakeFiles/serveur.dir/Sources/spectacles.c.o: /home/mathiew/Projet_SY40_Final/S
 
 /usr/include/x86_64-linux-gnu/sys/select.h:
 
+/usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
+
 /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
 
 /usr/include/x86_64-linux-gnu/gnu/stubs.h:
@@ -262,6 +272,8 @@ CMakeFiles/serveur.dir/Sources/spectacles.c.o: /home/mathiew/Projet_SY40_Final/S
 /usr/include/x86_64-linux-gnu/bits/waitstatus.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdint-intn.h:
+
+/usr/include/string.h:
 
 /usr/include/x86_64-linux-gnu/bits/endian.h:
 

@@ -63,4 +63,8 @@ CMakeFiles/client.dir/client.c.o: \
  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
  /home/mathiew/Projet_SY40_Final/Include/../Include/spectacles.h \
- /home/mathiew/Projet_SY40_Final/Include/../Include/ipc_utils.h
+ /home/mathiew/Projet_SY40_Final/Include/../Include/ipc_utils.h \
+ /usr/include/string.h \
+ /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
+ /usr/include/strings.h

@@ -7,11 +7,14 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/msg.h>
 #include "../Include/spectacles.h"
 #include "../Include/ipc_utils.h"
 
 int msgid_demande, msgid_reponse;
+User users[MAX_USERS];
+int nb_users = 0;
 
 // Fonction de nettoyage pour supprimer les files de messages à la fin
 void nettoyer_ressources() {
@@ -31,7 +34,7 @@ void traiter_demandes_reservation(Spectacle spectacles[], int nb_spectacles) {
             continue;
         }
 
-        // Initialiser la réponse
+        // Initialise la réponse
         reponse.type = demande.user_id;
         reponse.success = 0;
 
@@ -128,8 +131,67 @@ void traiter_demandes_reservation(Spectacle spectacles[], int nb_spectacles) {
                     }
                 }
                 break;
+
+            case 6: // Connexion
+                {
+                    int user_id = verifier_credentials(demande.username, demande.password);
+                    reponse.type = demande.user_id;
+                    reponse.success = (user_id != -1);
+                    reponse.user_id = user_id;
+                    
+                    if (envoyer_message(msgid_reponse, &reponse, sizeof(ReponseReservation) - sizeof(long)) == -1) {
+                        perror("Erreur : Envoi de la réponse de connexion échoué");
+                    }
+                }
+                break;
+
+            case 7: // Création de compte
+                {
+                    memset(&reponse, 0, sizeof(ReponseReservation));
+                    int user_id = creer_utilisateur(demande.username, demande.password);
+                    reponse.type = demande.user_id;  
+                    reponse.success = (user_id != -1);
+                    reponse.user_id = user_id;
+                    
+                    if (envoyer_message(msgid_reponse, &reponse, sizeof(ReponseReservation) - sizeof(long)) == -1) {
+                        perror("Erreur : Envoi de la réponse de création de compte échoué");
+                    } else {
+                        printf("Compte créé avec succès pour l'utilisateur %s (ID: %d)\n", 
+                               demande.username, user_id);
+                    }
+                }
+                break;
         }
     }
+}
+
+int verifier_credentials(const char *username, const char *password) {
+    for (int i = 0; i < nb_users; i++) {
+        if (strcmp(users[i].username, username) == 0 && 
+            strcmp(users[i].password, password) == 0 && 
+            users[i].active) {
+            return users[i].id;
+        }
+    }
+    return -1;
+}
+
+int creer_utilisateur(const char *username, const char *password) {
+    // Vérifie si username existe déjà
+    for (int i = 0; i < nb_users; i++) {
+        if (strcmp(users[i].username, username) == 0) {
+            return -1;
+        }
+    }
+    
+    if (nb_users >= MAX_USERS) return -1;
+    
+    strcpy(users[nb_users].username, username);
+    strcpy(users[nb_users].password, password);
+    users[nb_users].id = nb_users + 1;
+    users[nb_users].active = 1;
+    
+    return users[nb_users++].id;
 }
 
 int main() {
@@ -138,7 +200,7 @@ int main() {
 
     atexit(nettoyer_ressources);
 
-    // Initialiser les spectacles
+    // Initialise les spectacles
     Spectacle spectacles[2] = {
         {0, {5, 3, 2}}, // Spectacle 0 avec 5 places VIP, 3 Standard, 2 Économique
         {1, {2, 4, 1}}  // Spectacle 1 avec 2 places VIP, 4 Standard, 1 Économique

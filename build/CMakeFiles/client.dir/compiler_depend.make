@@ -163,8 +163,14 @@ CMakeFiles/client.dir/client.c.o: /home/mathiew/Projet_SY40_Final/client.c \
   /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
   /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
   /home/mathiew/Projet_SY40_Final/Include/spectacles.h \
-  /home/mathiew/Projet_SY40_Final/Include/ipc_utils.h
+  /home/mathiew/Projet_SY40_Final/Include/ipc_utils.h \
+  /usr/include/string.h \
+  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
+  /usr/include/strings.h
 
+
+/usr/include/strings.h:
 
 /usr/include/x86_64-linux-gnu/bits/unistd_ext.h:
 
@@ -185,6 +191,8 @@ CMakeFiles/client.dir/client.c.o: /home/mathiew/Projet_SY40_Final/client.c \
 /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h:
 
 /usr/include/x86_64-linux-gnu/sys/types.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/__locale_t.h:
 
 /usr/include/x86_64-linux-gnu/bits/getopt_posix.h:
 
@@ -246,6 +254,8 @@ CMakeFiles/client.dir/client.c.o: /home/mathiew/Projet_SY40_Final/client.c \
 
 /usr/include/x86_64-linux-gnu/sys/select.h:
 
+/usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
+
 /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
 
 /usr/include/x86_64-linux-gnu/gnu/stubs.h:
@@ -283,6 +293,8 @@ CMakeFiles/client.dir/client.c.o: /home/mathiew/Projet_SY40_Final/client.c \
 /usr/include/x86_64-linux-gnu/bits/waitstatus.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdint-intn.h:
+
+/usr/include/string.h:
 
 /usr/include/x86_64-linux-gnu/bits/endian.h:
 
