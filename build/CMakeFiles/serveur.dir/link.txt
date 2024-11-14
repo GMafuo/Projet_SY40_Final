@@ -1,1 +1,1 @@
-/usr/bin/cc CMakeFiles/serveur.dir/Sources/main.c.o CMakeFiles/serveur.dir/Sources/ipc_utils.c.o CMakeFiles/serveur.dir/Sources/spectacles.c.o -o serveur 
+/usr/bin/cc  -pthread CMakeFiles/serveur.dir/Sources/main.c.o CMakeFiles/serveur.dir/Sources/ipc_utils.c.o CMakeFiles/serveur.dir/Sources/spectacles.c.o -o serveur 

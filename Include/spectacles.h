@@ -1,6 +1,9 @@
 #ifndef SPECTACLES_H
 #define SPECTACLES_H
 
+#include <semaphore.h>
+#include <fcntl.h>
+
 // Constantes de configuration
 #define MAX_CATEGORIES 3        // Nombre de catégories de places (VIP, Standard, Eco)
 #define MSG_KEY_DEMANDE 1234   // Clé IPC pour la file des demandes client->serveur
@@ -26,6 +29,7 @@ typedef struct {
     int places_disponibles[MAX_CATEGORIES];     // Nombre de places par catégorie
     Reservation reservations[MAX_RESERVATIONS]; // Tableau des réservations
     int nb_reservations;                        // Nombre total de réservations
+    sem_t *mutex;  // Mutex pour chaque spectacle
 } Spectacle;
 
 // Structure pour les messages de demande client->serveur
@@ -63,13 +67,17 @@ typedef struct {
     int active;  // 1 si compte actif, 0 sinon
 } User;
 
+// Definition sémaphore
+#define SEM_SPECTACLES "/sem_spectacles"
+#define SEM_USERS "/sem_users"
+
 // Prototypes de fonctions
 void ajouter_spectacle(Spectacle *spectacles, int *nb_spectacles, int id, int places[]);
-void annuler_reservation_spectacle(Spectacle *spectacle, int categorie, int user_id);
+void annuler_reservation_spectacle(Spectacle *spectacle, int categorie, int user_id, sem_t *sem);
 int trouver_alternative(Spectacle spectacles[], int nb_spectacles, int spectacle_id);
 void afficher_spectacles(Spectacle *spectacles, int nb_spectacles);
-int ajouter_reservation(Spectacle *spectacle, int categorie, int user_id);
-void modifier_reservation_spectacle(Spectacle *spectacles, int nb_spectacles, int spectacle_id, int old_categorie, int new_categorie, int user_id);
+int ajouter_reservation(Spectacle *spectacle, int categorie, int user_id, sem_t *sem);
+void modifier_reservation_spectacle(Spectacle *spectacles, int nb_spectacles, int spectacle_id, int old_categorie, int new_categorie, int user_id, sem_t *sem);
 int verifier_credentials(const char *username, const char *password);
 int creer_utilisateur(const char *username, const char *password);
 

@@ -4,6 +4,9 @@ project(distributeur_tickets C)
 # Inclure le répertoire pour les fichiers d'en-tête
 include_directories(Include)
 
+# Ajouter pthread aux flags de compilation
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pthread")
+
 # Cible pour le serveur principal
 add_executable(serveur
         Sources/main.c

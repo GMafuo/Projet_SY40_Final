@@ -12,9 +12,12 @@ void ajouter_spectacle(Spectacle *spectacles, int *nb_spectacles, int id, int pl
 }
 
 // Renommé pour éviter le conflit
-void annuler_reservation_spectacle(Spectacle *spectacle, int categorie, int user_id) {
+void annuler_reservation_spectacle(Spectacle *spectacle, int categorie, int user_id, sem_t *sem) {
+    sem_wait(sem);
+    
     if (categorie >= MAX_CATEGORIES || categorie < 0) {
         printf("Catégorie invalide\n");
+        sem_post(sem);
         return;
     }
     
@@ -25,50 +28,58 @@ void annuler_reservation_spectacle(Spectacle *spectacle, int categorie, int user
             
             spectacle->reservations[i].active = RESERVATION_ANNULEE;
             spectacle->places_disponibles[categorie]++;
-            
             printf("Annulation effectuée avec succès\n");
+            sem_post(sem);
             return;
         }
     }
     
     printf("Aucune réservation active trouvée pour cet utilisateur\n");
+    sem_post(sem);
 }
 
 // Ajouter une réservation
-int ajouter_reservation(Spectacle *spectacle, int categorie, int user_id) {
+int ajouter_reservation(Spectacle *spectacle, int categorie, int user_id, sem_t *sem) {
+    int success = 0;
+    
+    sem_wait(sem);  // Verrouiller l'accès
+    
     if (categorie >= MAX_CATEGORIES || categorie < 0) {
         printf("Catégorie invalide\n");
+        sem_post(sem);  // Déverrouiller avant de sortir
         return 0;
     }
     
     if (spectacle->places_disponibles[categorie] <= 0) {
         printf("Plus de places disponibles dans cette catégorie\n");
+        sem_post(sem);
         return 0;
     }
     
+    // Vérifier si l'utilisateur a déjà une réservation active
     for (int i = 0; i < spectacle->nb_reservations; i++) {
         if (spectacle->reservations[i].user_id == user_id && 
             spectacle->reservations[i].active == RESERVATION_ACTIVE) {
             printf("L'utilisateur a déjà une réservation active\n");
+            sem_post(sem);
             return 0;
         }
     }
     
-    if (spectacle->nb_reservations >= MAX_RESERVATIONS) {
-        printf("Nombre maximum de réservations atteint\n");
-        return 0;
+    if (spectacle->nb_reservations < MAX_RESERVATIONS) {
+        int idx = spectacle->nb_reservations;
+        spectacle->reservations[idx].user_id = user_id;
+        spectacle->reservations[idx].spectacle_id = spectacle->id;
+        spectacle->reservations[idx].categorie = categorie;
+        spectacle->reservations[idx].active = RESERVATION_ACTIVE;
+        spectacle->nb_reservations++;
+        spectacle->places_disponibles[categorie]--;
+        success = 1;
+        printf("Réservation effectuée avec succès\n");
     }
     
-    int idx = spectacle->nb_reservations;
-    spectacle->reservations[idx].user_id = user_id;
-    spectacle->reservations[idx].spectacle_id = spectacle->id;
-    spectacle->reservations[idx].categorie = categorie;
-    spectacle->reservations[idx].active = RESERVATION_ACTIVE;
-    spectacle->nb_reservations++;
-    spectacle->places_disponibles[categorie]--;
-    
-    printf("Réservation effectuée avec succès\n");
-    return 1;
+    sem_post(sem);  // Déverrouiller l'accès
+    return success;
 }
 
 // Fonction pour trouver une catégorie alternative disponible
@@ -85,37 +96,42 @@ int trouver_alternative(Spectacle spectacles[], int nb_spectacles, int spectacle
     return -1; // Aucune place disponible dans les catégories
 }
 
-void modifier_reservation_spectacle(Spectacle *spectacles, int nb_spectacles, int spectacle_id, int old_categorie, int new_categorie, int user_id) {
+void modifier_reservation_spectacle(Spectacle *spectacles, int nb_spectacles, 
+                                  int spectacle_id, int old_categorie, 
+                                  int new_categorie, int user_id, sem_t *sem) {
+    sem_wait(sem);
+    
     if (spectacle_id >= nb_spectacles || new_categorie >= MAX_CATEGORIES || new_categorie < 0) {
         printf("Paramètres invalides pour la modification de réservation\n");
+        sem_post(sem);
         return;
     }
     
     Spectacle *spectacle = &spectacles[spectacle_id];
     
-    // Vérifier si la nouvelle catégorie a des places disponibles
     if (spectacle->places_disponibles[new_categorie] <= 0) {
         printf("Plus de places disponibles dans la nouvelle catégorie\n");
+        sem_post(sem);
         return;
     }
     
-    // Chercher la réservation existante
     for (int i = 0; i < spectacle->nb_reservations; i++) {
         if (spectacle->reservations[i].user_id == user_id && 
             spectacle->reservations[i].categorie == old_categorie &&
             spectacle->reservations[i].active == RESERVATION_ACTIVE) {
             
-            // Modifier la réservation
             spectacle->reservations[i].categorie = new_categorie;
             spectacle->places_disponibles[old_categorie]++;
             spectacle->places_disponibles[new_categorie]--;
             
             printf("Modification de réservation effectuée avec succès\n");
+            sem_post(sem);
             return;
         }
     }
     
-    printf("Aucune réservation active trouvée pour cet utilisateur dans la catégorie spécifiée\n");
+    printf("Aucune réservation active trouvée pour cet utilisateur\n");
+    sem_post(sem);
 }
 
 // Afficher les spectacles et les places disponibles

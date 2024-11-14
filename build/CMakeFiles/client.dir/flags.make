@@ -6,5 +6,5 @@ C_DEFINES =
 
 C_INCLUDES = -I/home/mathiew/Projet_SY40_Final/Include
 
-C_FLAGS = 
+C_FLAGS =  -pthread
 

@@ -15,11 +15,19 @@
 int msgid_demande, msgid_reponse;
 User users[MAX_USERS];
 int nb_users = 0;
+sem_t *sem_spectacles;
+sem_t *sem_users;
 
 // Fonction de nettoyage pour supprimer les files de messages à la fin
 void nettoyer_ressources() {
     delete_msg_queue(msgid_demande);
     delete_msg_queue(msgid_reponse);
+    
+    // Fermer et supprimer les sémaphores
+    sem_close(sem_spectacles);
+    sem_close(sem_users);
+    sem_unlink(SEM_SPECTACLES);
+    sem_unlink(SEM_USERS);
 }
 
 // Fonction principale de traitement des demandes de réservation
@@ -43,7 +51,8 @@ void traiter_demandes_reservation(Spectacle spectacles[], int nb_spectacles) {
                 if (demande.spectacle_id < nb_spectacles) {
                     reponse.success = ajouter_reservation(&spectacles[demande.spectacle_id], 
                                                         demande.categorie, 
-                                                        demande.user_id);
+                                                        demande.user_id,
+                                                        sem_spectacles);
                     if (!reponse.success) {
                         reponse.categorie_suggeree = trouver_alternative(spectacles, 
                                                                        nb_spectacles, 
@@ -63,7 +72,8 @@ void traiter_demandes_reservation(Spectacle spectacles[], int nb_spectacles) {
                 if (demande.spectacle_id < nb_spectacles) {
                     annuler_reservation_spectacle(&spectacles[demande.spectacle_id], 
                                                 demande.categorie,
-                                                demande.user_id);
+                                                demande.user_id,
+                                                sem_spectacles);
                     reponse.success = 1;
                     printf("Annulation confirmée pour l'utilisateur %d\n", demande.user_id);
                     
@@ -80,7 +90,8 @@ void traiter_demandes_reservation(Spectacle spectacles[], int nb_spectacles) {
                                                  demande.spectacle_id, 
                                                  demande.categorie,      
                                                  demande.new_categorie,  
-                                                 demande.user_id);
+                                                 demande.user_id,
+                                                 sem_spectacles);
                     reponse.success = 1;
                     
                     if (envoyer_message(msgid_reponse, &reponse, sizeof(ReponseReservation) - sizeof(long)) == -1) {
@@ -199,6 +210,15 @@ int main() {
     msgid_reponse = create_msg_queue(MSG_KEY_REPONSE);
 
     atexit(nettoyer_ressources);
+
+    // Initialiser les sémaphores
+    sem_spectacles = sem_open(SEM_SPECTACLES, O_CREAT, 0666, 1);
+    sem_users = sem_open(SEM_USERS, O_CREAT, 0666, 1);
+    
+    if (sem_spectacles == SEM_FAILED || sem_users == SEM_FAILED) {
+        perror("Erreur création sémaphores");
+        exit(1);
+    }
 
     // Initialise les spectacles
     Spectacle spectacles[2] = {
