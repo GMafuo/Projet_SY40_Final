@@ -43,6 +43,17 @@ inline int gerer_message(int msgid, void *msg, size_t size, long type, int envoi
     return 1;
 }
 
+int simuler_paiement(int msgid_demande, int msgid_reponse, int user_id, int categorie) {
+    printf("\nTraitement du paiement en cours");
+    for (int i = 0; i < 3; i++) {
+        printf(".");
+        fflush(stdout);
+        sleep(1);
+    }
+    printf("\n");
+    return 1;
+}
+
 void reserver_billet(int msgid_demande, int msgid_reponse, int user_id) {
     DemandeReservation demande;
     ReponseReservation reponse;
@@ -87,15 +98,34 @@ void reserver_billet(int msgid_demande, int msgid_reponse, int user_id) {
     }
 
     if (reponse.success) {
+        double prix = 0.0;
+        switch(demande.categorie) {
+            case 0: prix = PRIX_VIP; break;
+            case 1: prix = PRIX_STANDARD; break;
+            case 2: prix = PRIX_ECO; break;
+        }
+        
+        // Simulation du paiement 
+        printf("\nTraitement du paiement en cours");
+        for (int i = 0; i < 3; i++) {
+            printf(".");
+            fflush(stdout); 
+            sleep(1);        
+        }
+        printf("\n");
+
         printf("\nRéservation réussie!\n");
-        printf("Votre numéro de réservation : %d-%d-%d\n", demande.user_id, demande.spectacle_id, demande.categorie);
+        printf("Votre numéro de réservation : %d-%d-%d\n", 
+               demande.user_id, demande.spectacle_id, demande.categorie);
+        printf("Montant débité : %.2f€\n", prix);
+        printf("Solde restant : %.2f€\n", reponse.solde_restant);
         printf("Gardez ce numéro pour toute modification ou annulation future.\n");
     } else {
         printf("\nRéservation échouée. ");
         if (reponse.categorie_suggeree != -1) {
             printf("Catégorie alternative suggérée: %d\n", reponse.categorie_suggeree);
         } else {
-            printf("Aucune alternative disponible.\n");
+            printf("Vérifiez votre solde ou la disponibilité des places.\n");
         }
     }
 }
@@ -157,6 +187,14 @@ void annuler_reservation(int msgid_demande, int msgid_reponse, int user_id) {
                 return;
             }
 
+            printf("\nAnnulation en cours");
+            for (int i = 0; i < 3; i++) {
+                printf(".");
+                fflush(stdout);
+                sleep(1);
+            }
+            printf("\n");
+
             if (recevoir_message(msgid_reponse, &reponse, sizeof(ReponseReservation) - sizeof(long), demande.user_id) == -1) {
                 perror("Erreur lors de la réception de la réponse d'annulation");
                 return;
@@ -164,6 +202,8 @@ void annuler_reservation(int msgid_demande, int msgid_reponse, int user_id) {
 
             if (reponse.success) {
                 printf("Annulation réussie!\n");
+                printf("Montant remboursé : %.2f€\n", reponse.montant_rembourse);
+                printf("Nouveau solde : %.2f€\n", reponse.solde_restant);
             } else {
                 printf("Échec de l'annulation.\n");
             }
@@ -232,26 +272,47 @@ void modifier_reservation(int msgid_demande, int msgid_reponse, int user_id) {
         demande.categorie = reservations[choix-1].categorie;  
         demande.new_categorie = nouvelle_categorie;           
 
-        // Envoyer la demande de modification
         if (envoyer_message(msgid_demande, &demande, sizeof(DemandeReservation) - sizeof(long)) == -1) {
             perror("Erreur lors de l'envoi de la demande de modification");
             return;
         }
 
-        // Recevoir la réponse de la modification
+        printf("\nModification en cours");
+        for (int i = 0; i < 3; i++) {
+            printf(".");
+            fflush(stdout);
+            sleep(1);
+        }
+        printf("\n");
+
         if (recevoir_message(msgid_reponse, &reponse, sizeof(ReponseReservation) - sizeof(long), demande.user_id) == -1) {
             perror("Erreur lors de la réception de la réponse de modification");
             return;
         }
 
         if (reponse.success) {
+            if (reponse.difference_prix > 0) {
+                printf("\nTraitement du paiement supplémentaire en cours");
+                for (int i = 0; i < 3; i++) {
+                    printf(".");
+                    fflush(stdout);
+                    sleep(1);
+                }
+                printf("\n");
+            }
             printf("Modification réussie!\n");
+            if (reponse.difference_prix > 0) {
+                printf("Supplément débité : %.2f€\n", reponse.difference_prix);
+            } else if (reponse.difference_prix < 0) {
+                printf("Montant remboursé : %.2f€\n", -reponse.difference_prix);
+            }
+            printf("Nouveau solde : %.2f€\n", reponse.solde_restant);
         } else {
             printf("Modification échouée. ");
             if (reponse.categorie_suggeree != -1) {
                 printf("Catégorie alternative suggérée: %d\n", reponse.categorie_suggeree);
             } else {
-                printf("Aucune alternative disponible.\n");
+                printf("Vérifiez votre solde ou la disponibilité des places.\n");
             }
         }
     } else if (choix != 0) {
@@ -420,7 +481,6 @@ int main() {
             case 1:
                 user_id = connecter_utilisateur(msgid_demande, msgid_reponse);
                 if (user_id != -1) {
-                    // Menu principal existant
                     gerer_menu_principal(msgid_demande, msgid_reponse, user_id);
                 }
                 break;

@@ -51,7 +51,10 @@ typedef struct {
     int spectacle_id;
     int categorie;
     int places_disponibles[MAX_CATEGORIES];
-    int user_id;  
+    int user_id;
+    double montant_rembourse;    // Pour les annulations
+    double difference_prix;      // Pour les modifications
+    double solde_restant;       // Pour afficher le solde après opération
 } ReponseReservation;
 
 typedef struct {
@@ -65,6 +68,7 @@ typedef struct {
     char username[MAX_USERNAME];
     char password[MAX_PASSWORD];
     int active;  // 1 si compte actif, 0 sinon
+    double solde;  // Solde du compte en euros
 } User;
 
 // Definition sémaphore
@@ -80,6 +84,15 @@ int ajouter_reservation(Spectacle *spectacle, int categorie, int user_id, sem_t 
 void modifier_reservation_spectacle(Spectacle *spectacles, int nb_spectacles, int spectacle_id, int old_categorie, int new_categorie, int user_id, sem_t *sem);
 int verifier_credentials(const char *username, const char *password);
 int creer_utilisateur(const char *username, const char *password);
+int effectuer_paiement(int user_id, int categorie);
+double obtenir_prix_categorie(int categorie);
+double obtenir_solde_utilisateur(int user_id);
+void mettre_a_jour_solde(int user_id, double montant);
+
+#define PRIX_VIP 100.0
+#define PRIX_STANDARD 50.0
+#define PRIX_ECO 25.0
+#define SOLDE_INITIAL 500.0  
 
 #endif // SPECTACLES_H
 

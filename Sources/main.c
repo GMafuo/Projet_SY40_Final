@@ -48,34 +48,49 @@ void traiter_demandes_reservation(Spectacle spectacles[], int nb_spectacles) {
 
         switch(demande.type) {
             case 1: // Réservation
-                if (demande.spectacle_id < nb_spectacles) {
-                    reponse.success = ajouter_reservation(&spectacles[demande.spectacle_id], 
-                                                        demande.categorie, 
-                                                        demande.user_id,
-                                                        sem_spectacles);
-                    if (!reponse.success) {
-                        reponse.categorie_suggeree = trouver_alternative(spectacles, 
-                                                                       nb_spectacles, 
-                                                                       demande.spectacle_id);
-                    } else {
-                        reponse.categorie_suggeree = -1;
+                {
+                    memset(&reponse, 0, sizeof(ReponseReservation));
+                    reponse.type = demande.user_id;
+                    
+                    if (demande.spectacle_id < nb_spectacles) {
+                        double prix = obtenir_prix_categorie(demande.categorie);
+                        double solde = obtenir_solde_utilisateur(demande.user_id);
+                        
+                        if (solde >= prix) {  // Vérifier si l'utilisateur a assez d'argent
+                            if (ajouter_reservation(&spectacles[demande.spectacle_id], 
+                                                  demande.categorie,
+                                                  demande.user_id,
+                                                  sem_spectacles)) {
+                                mettre_a_jour_solde(demande.user_id, prix);
+                                reponse.success = 1;
+                                reponse.solde_restant = obtenir_solde_utilisateur(demande.user_id);
+                            }
+                        } else {
+                            reponse.success = 0;
+                            printf("Paiement refusé - solde insuffisant\n");
+                        }
                     }
                     
-                    if (envoyer_message(msgid_reponse, &reponse, 
-                                       sizeof(ReponseReservation) - sizeof(long)) == -1) {
-                        perror("Erreur : Envoi de la réponse échoué");
+                    if (envoyer_message(msgid_reponse, &reponse, sizeof(ReponseReservation) - sizeof(long)) == -1) {
+                        perror("Erreur : Envoi de la réponse de réservation échoué");
                     }
                 }
                 break;
 
             case 2: // Annulation
                 if (demande.spectacle_id < nb_spectacles) {
+                    double prix_remboursement = obtenir_prix_categorie(demande.categorie);
+                    
                     annuler_reservation_spectacle(&spectacles[demande.spectacle_id], 
                                                 demande.categorie,
                                                 demande.user_id,
                                                 sem_spectacles);
+                    
+                    mettre_a_jour_solde(demande.user_id, -prix_remboursement);
+                    
                     reponse.success = 1;
-                    printf("Annulation confirmée pour l'utilisateur %d\n", demande.user_id);
+                    reponse.montant_rembourse = prix_remboursement;
+                    reponse.solde_restant = obtenir_solde_utilisateur(demande.user_id);
                     
                     if (envoyer_message(msgid_reponse, &reponse, sizeof(ReponseReservation) - sizeof(long)) == -1) {
                         perror("Erreur : Envoi de la réponse d'annulation échoué");
@@ -85,14 +100,29 @@ void traiter_demandes_reservation(Spectacle spectacles[], int nb_spectacles) {
 
             case 3: // Modification
                 if (demande.spectacle_id < nb_spectacles) {
-                    modifier_reservation_spectacle(spectacles, 
-                                                 nb_spectacles, 
-                                                 demande.spectacle_id, 
-                                                 demande.categorie,      
-                                                 demande.new_categorie,  
-                                                 demande.user_id,
-                                                 sem_spectacles);
-                    reponse.success = 1;
+                    double ancien_prix = obtenir_prix_categorie(demande.categorie);
+                    double nouveau_prix = obtenir_prix_categorie(demande.new_categorie);
+                    double difference = nouveau_prix - ancien_prix;
+                    
+                    if (difference > 0 && obtenir_solde_utilisateur(demande.user_id) < difference) {
+                        reponse.success = 0;
+                    } else {
+                        modifier_reservation_spectacle(spectacles, 
+                                                    nb_spectacles, 
+                                                    demande.spectacle_id, 
+                                                    demande.categorie,      
+                                                    demande.new_categorie,  
+                                                    demande.user_id,
+                                                    sem_spectacles);
+                        
+                        if (difference != 0) {
+                            mettre_a_jour_solde(demande.user_id, difference);
+                        }
+                        
+                        reponse.success = 1;
+                        reponse.difference_prix = difference;
+                        reponse.solde_restant = obtenir_solde_utilisateur(demande.user_id);
+                    }
                     
                     if (envoyer_message(msgid_reponse, &reponse, sizeof(ReponseReservation) - sizeof(long)) == -1) {
                         perror("Erreur : Envoi de la réponse de modification échoué");
@@ -188,21 +218,89 @@ int verifier_credentials(const char *username, const char *password) {
 }
 
 int creer_utilisateur(const char *username, const char *password) {
+    sem_wait(sem_users);
+    
     // Vérifie si username existe déjà
     for (int i = 0; i < nb_users; i++) {
         if (strcmp(users[i].username, username) == 0) {
+            sem_post(sem_users);
             return -1;
         }
     }
     
-    if (nb_users >= MAX_USERS) return -1;
+    if (nb_users >= MAX_USERS) {
+        sem_post(sem_users);
+        return -1;
+    }
     
     strcpy(users[nb_users].username, username);
     strcpy(users[nb_users].password, password);
     users[nb_users].id = nb_users + 1;
     users[nb_users].active = 1;
+    users[nb_users].solde = SOLDE_INITIAL;  // Initialisation du solde à 500€
     
-    return users[nb_users++].id;
+    printf("Nouveau compte créé: %s (ID: %d) avec solde initial de %.2f€\n",
+           username, users[nb_users].id, users[nb_users].solde);
+    
+    int new_user_id = users[nb_users].id;
+    nb_users++;
+    
+    sem_post(sem_users);
+    return new_user_id;
+}
+
+double obtenir_prix_categorie(int categorie) {
+    switch(categorie) {
+        case 0: return PRIX_VIP;
+        case 1: return PRIX_STANDARD;
+        case 2: return PRIX_ECO;
+        default: return 0.0;
+    }
+}
+
+double obtenir_solde_utilisateur(int user_id) {
+    sem_wait(sem_users);
+    double solde = -1.0;
+    
+    for (int i = 0; i < nb_users; i++) {
+        if (users[i].id == user_id && users[i].active) {
+            solde = users[i].solde;
+            break;
+        }
+    }
+    
+    sem_post(sem_users);
+    return solde;
+}
+
+void mettre_a_jour_solde(int user_id, double montant) {
+    sem_wait(sem_users);
+    
+    for (int i = 0; i < nb_users; i++) {
+        if (users[i].id == user_id && users[i].active) {
+            users[i].solde -= montant;
+            printf("Solde mis à jour pour l'utilisateur %d: %.2f€\n", 
+                   user_id, users[i].solde);
+            break;
+        }
+    }
+    
+    sem_post(sem_users);
+}
+
+int effectuer_paiement(int user_id, int categorie) {
+    double prix = obtenir_prix_categorie(categorie);
+    double solde = obtenir_solde_utilisateur(user_id);
+    
+    if (solde < prix) {
+        return 0;  
+    }
+    
+    // Temps de traitement du paiement
+    sleep(2);
+    
+    mettre_a_jour_solde(user_id, prix);
+    return 1;  
 }
 
 int main() {
