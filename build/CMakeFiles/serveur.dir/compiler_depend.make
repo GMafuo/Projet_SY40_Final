@@ -131,6 +131,13 @@ CMakeFiles/serveur.dir/Sources/main.c.o: /home/mathiew/Projet_SY40_Final/Sources
   /usr/include/x86_64-linux-gnu/bits/msq.h \
   /usr/include/x86_64-linux-gnu/bits/types/struct_msqid_ds.h \
   /usr/include/x86_64-linux-gnu/bits/types/struct_msqid64_ds.h \
+  /usr/include/unistd.h \
+  /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+  /usr/include/x86_64-linux-gnu/bits/environments.h \
+  /usr/include/x86_64-linux-gnu/bits/confname.h \
+  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
+  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
   /home/mathiew/Projet_SY40_Final/Include/spectacles.h \
   /usr/include/semaphore.h \
   /usr/include/x86_64-linux-gnu/bits/semaphore.h \
@@ -210,6 +217,14 @@ CMakeFiles/serveur.dir/Sources/spectacles.c.o: /home/mathiew/Projet_SY40_Final/S
 
 /usr/include/semaphore.h:
 
+/usr/include/x86_64-linux-gnu/bits/unistd_ext.h:
+
+/usr/include/x86_64-linux-gnu/bits/confname.h:
+
+/usr/include/x86_64-linux-gnu/bits/posix_opt.h:
+
+/usr/include/unistd.h:
+
 /usr/include/strings.h:
 
 /usr/include/alloca.h:
@@ -223,6 +238,8 @@ CMakeFiles/serveur.dir/Sources/spectacles.c.o: /home/mathiew/Projet_SY40_Final/S
 /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h:
 
 /usr/include/x86_64-linux-gnu/sys/types.h:
+
+/usr/include/x86_64-linux-gnu/bits/getopt_posix.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h:
 
@@ -280,6 +297,8 @@ CMakeFiles/serveur.dir/Sources/spectacles.c.o: /home/mathiew/Projet_SY40_Final/S
 
 /usr/include/stdlib.h:
 
+/usr/include/x86_64-linux-gnu/bits/environments.h:
+
 /usr/include/x86_64-linux-gnu/sys/select.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
@@ -297,6 +316,8 @@ CMakeFiles/serveur.dir/Sources/spectacles.c.o: /home/mathiew/Projet_SY40_Final/S
 /usr/include/x86_64-linux-gnu/sys/cdefs.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h:
+
+/usr/include/x86_64-linux-gnu/bits/getopt_core.h:
 
 /usr/include/x86_64-linux-gnu/bits/timesize.h:
 

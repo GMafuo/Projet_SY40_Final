@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/msg.h>
+#include <unistd.h>
 #include "../Include/spectacles.h"
 #include "../Include/ipc_utils.h"
 
@@ -53,21 +54,35 @@ void traiter_demandes_reservation(Spectacle spectacles[], int nb_spectacles) {
                     reponse.type = demande.user_id;
                     
                     if (demande.spectacle_id < nb_spectacles) {
-                        double prix = obtenir_prix_categorie(demande.categorie);
-                        double solde = obtenir_solde_utilisateur(demande.user_id);
+                        Spectacle *spectacle = &spectacles[demande.spectacle_id];
                         
-                        if (solde >= prix) {  // Vérifier si l'utilisateur a assez d'argent
-                            if (ajouter_reservation(&spectacles[demande.spectacle_id], 
-                                                  demande.categorie,
-                                                  demande.user_id,
-                                                  sem_spectacles)) {
-                                mettre_a_jour_solde(demande.user_id, prix);
-                                reponse.success = 1;
-                                reponse.solde_restant = obtenir_solde_utilisateur(demande.user_id);
+                        // Vérifie d'abord si la catégorie demandée est disponible
+                        if (spectacle->places_disponibles[demande.categorie] > 0) {
+                            double prix = obtenir_prix_categorie(demande.categorie);
+                            double solde = obtenir_solde_utilisateur(demande.user_id);
+                            
+                            if (solde >= prix) {
+                                if (ajouter_reservation(spectacle, demande.categorie, demande.user_id, sem_spectacles)) {
+                                    mettre_a_jour_solde(demande.user_id, prix);
+                                    reponse.success = 1;
+                                    reponse.solde_restant = obtenir_solde_utilisateur(demande.user_id);
+                                }
+                            } else {
+                                reponse.success = 0;
+                                printf("Paiement refusé - solde insuffisant\n");
                             }
                         } else {
-                            reponse.success = 0;
-                            printf("Paiement refusé - solde insuffisant\n");
+                            // Chercher une alternative
+                            int categorie_alternative = trouver_alternative(spectacle, demande.categorie);
+                            if (categorie_alternative != -1) {
+                                reponse.success = 0;
+                                reponse.categorie_suggeree = categorie_alternative;
+                                printf("Proposition d'alternative : catégorie %d\n", categorie_alternative);
+                            } else {
+                                reponse.success = 0;
+                                reponse.categorie_suggeree = -1;
+                                printf("Aucune alternative disponible\n");
+                            }
                         }
                     }
                     

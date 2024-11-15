@@ -133,6 +133,13 @@ CMakeFiles/serveur.dir/Sources/main.c.o
  /usr/include/x86_64-linux-gnu/bits/msq.h
  /usr/include/x86_64-linux-gnu/bits/types/struct_msqid_ds.h
  /usr/include/x86_64-linux-gnu/bits/types/struct_msqid64_ds.h
+ /usr/include/unistd.h
+ /usr/include/x86_64-linux-gnu/bits/posix_opt.h
+ /usr/include/x86_64-linux-gnu/bits/environments.h
+ /usr/include/x86_64-linux-gnu/bits/confname.h
+ /usr/include/x86_64-linux-gnu/bits/getopt_posix.h
+ /usr/include/x86_64-linux-gnu/bits/getopt_core.h
+ /usr/include/x86_64-linux-gnu/bits/unistd_ext.h
  /home/mathiew/Projet_SY40_Final/Include/spectacles.h
  /usr/include/semaphore.h
  /usr/include/x86_64-linux-gnu/bits/semaphore.h

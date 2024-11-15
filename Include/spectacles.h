@@ -78,7 +78,7 @@ typedef struct {
 // Prototypes de fonctions
 void ajouter_spectacle(Spectacle *spectacles, int *nb_spectacles, int id, int places[]);
 void annuler_reservation_spectacle(Spectacle *spectacle, int categorie, int user_id, sem_t *sem);
-int trouver_alternative(Spectacle spectacles[], int nb_spectacles, int spectacle_id);
+int trouver_alternative(const Spectacle *spectacle, int categorie_demandee);
 void afficher_spectacles(Spectacle *spectacles, int nb_spectacles);
 int ajouter_reservation(Spectacle *spectacle, int categorie, int user_id, sem_t *sem);
 void modifier_reservation_spectacle(Spectacle *spectacles, int nb_spectacles, int spectacle_id, int old_categorie, int new_categorie, int user_id, sem_t *sem);

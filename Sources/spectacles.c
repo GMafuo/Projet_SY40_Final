@@ -56,16 +56,6 @@ int ajouter_reservation(Spectacle *spectacle, int categorie, int user_id, sem_t 
         return 0;
     }
     
-    // Vérifier si l'utilisateur a déjà une réservation active
-    for (int i = 0; i < spectacle->nb_reservations; i++) {
-        if (spectacle->reservations[i].user_id == user_id && 
-            spectacle->reservations[i].active == RESERVATION_ACTIVE) {
-            printf("L'utilisateur a déjà une réservation active\n");
-            sem_post(sem);
-            return 0;
-        }
-    }
-    
     if (spectacle->nb_reservations < MAX_RESERVATIONS) {
         int idx = spectacle->nb_reservations;
         spectacle->reservations[idx].user_id = user_id;
@@ -78,22 +68,30 @@ int ajouter_reservation(Spectacle *spectacle, int categorie, int user_id, sem_t 
         printf("Réservation effectuée avec succès\n");
     }
     
-    sem_post(sem);  // Déverrouiller l'accès
+    sem_post(sem);  
     return success;
 }
 
-// Fonction pour trouver une catégorie alternative disponible
-int trouver_alternative(Spectacle spectacles[], int nb_spectacles, int spectacle_id) {
-    for (int i = 0; i < nb_spectacles; i++) {
-        if (i != spectacle_id) { // Vérifier d'autres spectacles
-            for (int j = 0; j < MAX_CATEGORIES; j++) {
-                if (spectacles[i].places_disponibles[j] > 0) {
-                    return j; // Retourne l'index de la première catégorie disponible
-                }
+int trouver_alternative(const Spectacle *spectacle, int categorie_demandee) {
+    // D'abord essayer la catégorie supérieure
+    if (categorie_demandee > 0) {
+        for (int cat = categorie_demandee - 1; cat >= 0; cat--) {
+            if (spectacle->places_disponibles[cat] > 0) {
+                return cat;
             }
         }
     }
-    return -1; // Aucune place disponible dans les catégories
+    
+    // Ensuite essayer la catégorie inférieure
+    if (categorie_demandee < MAX_CATEGORIES - 1) {
+        for (int cat = categorie_demandee + 1; cat < MAX_CATEGORIES; cat++) {
+            if (spectacle->places_disponibles[cat] > 0) {
+                return cat;
+            }
+        }
+    }
+    
+    return -1; 
 }
 
 void modifier_reservation_spectacle(Spectacle *spectacles, int nb_spectacles, 

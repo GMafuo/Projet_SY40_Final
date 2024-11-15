@@ -121,11 +121,61 @@ void reserver_billet(int msgid_demande, int msgid_reponse, int user_id) {
         printf("Solde restant : %.2f€\n", reponse.solde_restant);
         printf("Gardez ce numéro pour toute modification ou annulation future.\n");
     } else {
-        printf("\nRéservation échouée. ");
         if (reponse.categorie_suggeree != -1) {
-            printf("Catégorie alternative suggérée: %d\n", reponse.categorie_suggeree);
+            char choix;
+            printf("\nLa catégorie demandée n'est pas disponible.");
+            printf("\nCatégorie alternative suggérée: %d (%s)", 
+                   reponse.categorie_suggeree,
+                   reponse.categorie_suggeree == 0 ? "VIP" : 
+                   (reponse.categorie_suggeree == 1 ? "Standard" : "Économique"));
+            
+            printf("\nSouhaitez-vous réserver dans cette catégorie ? (o/n): ");
+            scanf(" %c", &choix);
+            
+            if (choix == 'o' || choix == 'O') {
+                // Réutiliser la même demande avec la nouvelle catégorie
+                demande.categorie = reponse.categorie_suggeree;
+                
+                if (envoyer_message(msgid_demande, &demande, sizeof(DemandeReservation) - sizeof(long)) == -1) {
+                    perror("Erreur lors de l'envoi de la demande de réservation alternative");
+                    return;
+                }
+                
+                if (recevoir_message(msgid_reponse, &reponse, sizeof(ReponseReservation) - sizeof(long), demande.user_id) == -1) {
+                    perror("Erreur lors de la réception de la réponse de réservation alternative");
+                    return;
+                }
+                
+                if (reponse.success) {
+                    double prix = 0.0;
+                    switch(demande.categorie) {
+                        case 0: prix = PRIX_VIP; break;
+                        case 1: prix = PRIX_STANDARD; break;
+                        case 2: prix = PRIX_ECO; break;
+                    }
+                    
+                    printf("\nTraitement du paiement en cours");
+                    for (int i = 0; i < 3; i++) {
+                        printf(".");
+                        fflush(stdout);
+                        sleep(1);
+                    }
+                    printf("\n");
+                    
+                    printf("\nRéservation alternative réussie!\n");
+                    printf("Votre numéro de réservation : %d-%d-%d\n", 
+                           demande.user_id, demande.spectacle_id, demande.categorie);
+                    printf("Montant débité : %.2f€\n", prix);
+                    printf("Solde restant : %.2f€\n", reponse.solde_restant);
+                    printf("Gardez ce numéro pour toute modification ou annulation future.\n");
+                } else {
+                    printf("\nLa réservation alternative a échoué. Veuillez réessayer plus tard.\n");
+                }
+            } else {
+                printf("\nRéservation annulée.\n");
+            }
         } else {
-            printf("Vérifiez votre solde ou la disponibilité des places.\n");
+            printf("\nAucune alternative disponible. Vérifiez votre solde ou la disponibilité des places.\n");
         }
     }
 }
