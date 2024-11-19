@@ -27,7 +27,10 @@ static void afficher_liste_spectacles(void) {
     static const char *spectacles = "\nSpectacles disponibles :\n"
                                   "------------------------\n"
                                   "Spectacle 0 : Concert de musique classique\n"
-                                  "Spectacle 1 : Pièce de théâtre\n";
+                                  "Spectacle 1 : Pièce de théâtre\n"
+                                  "Spectacle 2 : Magie - Speculous rapidous\n"
+                                  "Spectacle 3 : World League of Legends\n";
+
     printf("%s", spectacles);
 }
 
@@ -70,12 +73,12 @@ void reserver_billet(int msgid_demande, int msgid_reponse, int user_id) {
     printf("\nRéservation pour l'utilisateur ID: %d\n", user_id);
 
     do {
-        printf("\nEntrez l'ID du spectacle (0 ou 1): ");
+        printf("\nEntrez l'ID du spectacle (0 à 3): ");
         scanf("%d", &demande.spectacle_id);
-        if (demande.spectacle_id < 0 || demande.spectacle_id > 1) {
-            printf("ID de spectacle invalide. Veuillez choisir 0 ou 1.\n");
+        if (demande.spectacle_id < 0 || demande.spectacle_id > 3) {
+            printf("ID de spectacle invalide. Veuillez choisir entre 0 et 3.\n");
         }
-    } while (demande.spectacle_id < 0 || demande.spectacle_id > 1);
+    } while (demande.spectacle_id < 0 || demande.spectacle_id > 3);
 
     do {
         printf("Entrez la catégorie (0: VIP, 1: Standard, 2: Economique): ");
@@ -383,12 +386,12 @@ void consulter_disponibilites(int msgid_demande, int msgid_reponse) {
     afficher_liste_spectacles();
 
     do {
-        printf("\nEntrez l'ID du spectacle (0 ou 1): ");
+        printf("\nEntrez l'ID du spectacle (0 à 3): ");
         scanf("%d", &demande.spectacle_id);
-        if (demande.spectacle_id < 0 || demande.spectacle_id > 1) {
-            printf("ID de spectacle invalide. Veuillez choisir 0 ou 1.\n");
+        if (demande.spectacle_id < 0 || demande.spectacle_id > 3) {
+            printf("ID de spectacle invalide. Veuillez choisir entre 0 ou 3.\n");
         }
-    } while (demande.spectacle_id < 0 || demande.spectacle_id > 1);
+    } while (demande.spectacle_id < 0 || demande.spectacle_id > 3);
 
     if (envoyer_message(msgid_demande, &demande, sizeof(DemandeReservation) - sizeof(long)) == -1) {
         perror("Erreur lors de l'envoi de la demande de consultation");

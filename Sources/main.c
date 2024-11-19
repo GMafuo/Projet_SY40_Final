@@ -345,13 +345,15 @@ int main() {
     }
 
     // Initialise les spectacles
-    Spectacle spectacles[2] = {
-        {0, {5, 3, 2}}, // Spectacle 0 avec 5 places VIP, 3 Standard, 2 Économique
-        {1, {2, 4, 1}}  // Spectacle 1 avec 2 places VIP, 4 Standard, 1 Économique
+    Spectacle spectacles[4] = {
+        {0, {5, 3, 2}}, // Concert de musique classique
+        {1, {2, 4, 1}}, // Pièce de théâtre
+        {2, {3, 5, 2}}, // Magie - Speculous rapidous
+        {3, {1, 6, 12}} // World League of Legends
     };
 
     printf("Serveur prêt à recevoir des demandes...\n");
-    traiter_demandes_reservation(spectacles, 2);
+    traiter_demandes_reservation(spectacles, 4);
 
     return 0;
 }
