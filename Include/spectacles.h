@@ -40,7 +40,8 @@ typedef struct {
     int categorie;      
     int new_categorie;
     char username[MAX_USERNAME];  
-    char password[MAX_PASSWORD]; 
+    char password[MAX_PASSWORD];
+    double solde_initial;  
 } DemandeReservation;
 
 // Structure pour les messages de réponse serveur->client
@@ -52,9 +53,9 @@ typedef struct {
     int categorie;
     int places_disponibles[MAX_CATEGORIES];
     int user_id;
-    double montant_rembourse;    // Pour les annulations
-    double difference_prix;      // Pour les modifications
-    double solde_restant;       // Pour afficher le solde après opération
+    double montant_rembourse;   
+    double difference_prix;     
+    double solde_restant;       
 } ReponseReservation;
 
 typedef struct {
@@ -83,7 +84,7 @@ void afficher_spectacles(Spectacle *spectacles, int nb_spectacles);
 int ajouter_reservation(Spectacle *spectacle, int categorie, int user_id, sem_t *sem);
 void modifier_reservation_spectacle(Spectacle *spectacles, int nb_spectacles, int spectacle_id, int old_categorie, int new_categorie, int user_id, sem_t *sem);
 int verifier_credentials(const char *username, const char *password);
-int creer_utilisateur(const char *username, const char *password);
+int creer_utilisateur(const char *username, const char *password, double solde_initial);
 int effectuer_paiement(int user_id, int categorie);
 double obtenir_prix_categorie(int categorie);
 double obtenir_solde_utilisateur(int user_id);
@@ -92,7 +93,6 @@ void mettre_a_jour_solde(int user_id, double montant);
 #define PRIX_VIP 100.0
 #define PRIX_STANDARD 50.0
 #define PRIX_ECO 25.0
-#define SOLDE_INITIAL 500.0  
 
 #endif // SPECTACLES_H
 

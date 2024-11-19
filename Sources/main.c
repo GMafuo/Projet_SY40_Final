@@ -55,12 +55,11 @@ void traiter_demandes_reservation(Spectacle spectacles[], int nb_spectacles) {
                     
                     if (demande.spectacle_id < nb_spectacles) {
                         Spectacle *spectacle = &spectacles[demande.spectacle_id];
+                        double solde = obtenir_solde_utilisateur(demande.user_id);
+                        double prix = obtenir_prix_categorie(demande.categorie);
                         
                         // Vérifie d'abord si la catégorie demandée est disponible
                         if (spectacle->places_disponibles[demande.categorie] > 0) {
-                            double prix = obtenir_prix_categorie(demande.categorie);
-                            double solde = obtenir_solde_utilisateur(demande.user_id);
-                            
                             if (solde >= prix) {
                                 if (ajouter_reservation(spectacle, demande.categorie, demande.user_id, sem_spectacles)) {
                                     mettre_a_jour_solde(demande.user_id, prix);
@@ -69,18 +68,30 @@ void traiter_demandes_reservation(Spectacle spectacles[], int nb_spectacles) {
                                 }
                             } else {
                                 reponse.success = 0;
-                                printf("Paiement refusé - solde insuffisant\n");
+                                reponse.categorie_suggeree = -2;
+                                reponse.solde_restant = solde;
+                                printf("Paiement refusé - solde insuffisant (%.2f€)\n", solde);
                             }
                         } else {
                             // Chercher une alternative
                             int categorie_alternative = trouver_alternative(spectacle, demande.categorie);
                             if (categorie_alternative != -1) {
-                                reponse.success = 0;
-                                reponse.categorie_suggeree = categorie_alternative;
-                                printf("Proposition d'alternative : catégorie %d\n", categorie_alternative);
+                                double prix_alternative = obtenir_prix_categorie(categorie_alternative);
+                                if (solde >= prix_alternative) {
+                                    reponse.success = 0;
+                                    reponse.categorie_suggeree = categorie_alternative;
+                                    reponse.solde_restant = solde;
+                                    printf("Proposition d'alternative : catégorie %d\n", categorie_alternative);
+                                } else {
+                                    reponse.success = 0;
+                                    reponse.categorie_suggeree = -2;
+                                    reponse.solde_restant = solde;
+                                    printf("Solde insuffisant pour toute alternative (%.2f€)\n", solde);
+                                }
                             } else {
                                 reponse.success = 0;
                                 reponse.categorie_suggeree = -1;
+                                reponse.solde_restant = solde;
                                 printf("Aucune alternative disponible\n");
                             }
                         }
@@ -204,7 +215,7 @@ void traiter_demandes_reservation(Spectacle spectacles[], int nb_spectacles) {
             case 7: // Création de compte
                 {
                     memset(&reponse, 0, sizeof(ReponseReservation));
-                    int user_id = creer_utilisateur(demande.username, demande.password);
+                    int user_id = creer_utilisateur(demande.username, demande.password, demande.solde_initial);
                     reponse.type = demande.user_id;  
                     reponse.success = (user_id != -1);
                     reponse.user_id = user_id;
@@ -212,8 +223,8 @@ void traiter_demandes_reservation(Spectacle spectacles[], int nb_spectacles) {
                     if (envoyer_message(msgid_reponse, &reponse, sizeof(ReponseReservation) - sizeof(long)) == -1) {
                         perror("Erreur : Envoi de la réponse de création de compte échoué");
                     } else {
-                        printf("Compte créé avec succès pour l'utilisateur %s (ID: %d)\n", 
-                               demande.username, user_id);
+                        printf("Compte créé avec succès pour l'utilisateur %s (ID: %d) avec solde initial de %.2f€\n", 
+                               demande.username, user_id, demande.solde_initial);
                     }
                 }
                 break;
@@ -232,7 +243,7 @@ int verifier_credentials(const char *username, const char *password) {
     return -1;
 }
 
-int creer_utilisateur(const char *username, const char *password) {
+int creer_utilisateur(const char *username, const char *password, double solde_initial) {
     sem_wait(sem_users);
     
     // Vérifie si username existe déjà
@@ -252,7 +263,7 @@ int creer_utilisateur(const char *username, const char *password) {
     strcpy(users[nb_users].password, password);
     users[nb_users].id = nb_users + 1;
     users[nb_users].active = 1;
-    users[nb_users].solde = SOLDE_INITIAL;  // Initialisation du solde à 500€
+    users[nb_users].solde = solde_initial;  
     
     printf("Nouveau compte créé: %s (ID: %d) avec solde initial de %.2f€\n",
            username, users[nb_users].id, users[nb_users].solde);

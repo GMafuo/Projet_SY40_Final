@@ -121,7 +121,10 @@ void reserver_billet(int msgid_demande, int msgid_reponse, int user_id) {
         printf("Solde restant : %.2f€\n", reponse.solde_restant);
         printf("Gardez ce numéro pour toute modification ou annulation future.\n");
     } else {
-        if (reponse.categorie_suggeree != -1) {
+        if (reponse.categorie_suggeree == -2) {
+            printf("\nVous ne disposez pas d'assez d'argent pour effectuer cette réservation.\n");
+            printf("Solde actuel : %.2f€\n", reponse.solde_restant);
+        } else if (reponse.categorie_suggeree != -1) {
             char choix;
             printf("\nLa catégorie demandée n'est pas disponible.");
             printf("\nCatégorie alternative suggérée: %d (%s)", 
@@ -175,7 +178,7 @@ void reserver_billet(int msgid_demande, int msgid_reponse, int user_id) {
                 printf("\nRéservation annulée.\n");
             }
         } else {
-            printf("\nAucune alternative disponible. Vérifiez votre solde ou la disponibilité des places.\n");
+            printf("\nAucune alternative disponible. Vérifiez la disponibilité des places.\n");
         }
     }
 }
@@ -459,6 +462,14 @@ int creer_compte(int msgid_demande, int msgid_reponse) {
     
     const char *pass = getpass("Choisissez un password: "); 
     strncpy(demande.password, pass, MAX_PASSWORD - 1);
+    
+    do {
+        printf("Entrez votre solde initial (minimum 25€): ");
+        scanf("%lf", &demande.solde_initial);
+        if (demande.solde_initial < 25.0) {
+            printf("Le solde initial doit être d'au moins 25€ (prix minimum d'un billet)\n");
+        }
+    } while (demande.solde_initial < 25.0);
     
     demande.type = 7;
     demande.user_id = getpid();
