@@ -13,14 +13,15 @@
 #include "../Include/ipc_utils.h"
 #include <string.h>
 
-static void afficher_menu(void) {
+static void afficher_menu(double solde) {
     static const char *menu = "\nMenu:\n"
+                             "Votre solde: %.2f€\n"
                              "1. Réserver un billet\n"
                              "2. Annuler une réservation\n"
                              "3. Modifier une réservation\n"
                              "4. Consulter les disponibilités\n"
                              "5. Déconnexion\n";
-    printf("%s", menu);
+    printf(menu, solde);
 }
 
 static void afficher_liste_spectacles(void) {
@@ -489,6 +490,7 @@ int creer_compte(int msgid_demande, int msgid_reponse) {
     
     if (reponse.success) {
         printf("Compte créé avec succès! Votre ID est %d\n", reponse.user_id);
+        reponse.solde_restant = demande.solde_initial;
         return reponse.user_id;
     } else {
         printf("Échec de la création du compte. Username déjà pris.\n");
@@ -498,8 +500,24 @@ int creer_compte(int msgid_demande, int msgid_reponse) {
 
 void gerer_menu_principal(int msgid_demande, int msgid_reponse, int user_id) {
     int choix;
+    double solde_actuel = 0.0;
+
+    // Demande du solde initial
+    DemandeReservation demande;
+    ReponseReservation reponse;
+    
+    memset(&demande, 0, sizeof(DemandeReservation));
+    demande.type = 8;  // Type pour obtenir le solde
+    demande.user_id = user_id;
+    
+    if (envoyer_message(msgid_demande, &demande, sizeof(DemandeReservation) - sizeof(long)) != -1) {
+        if (recevoir_message(msgid_reponse, &reponse, sizeof(ReponseReservation) - sizeof(long), user_id) != -1) {
+            solde_actuel = reponse.solde_restant;
+        }
+    }
+    
     do {
-        afficher_menu();
+        afficher_menu(solde_actuel);
         printf("Votre choix: ");
         scanf("%d", &choix);
         
@@ -521,6 +539,17 @@ void gerer_menu_principal(int msgid_demande, int msgid_reponse, int user_id) {
                 break;
             default:
                 printf("Option invalide\n");
+        }
+
+        // Mettre à jour le solde après chaque opération
+        memset(&demande, 0, sizeof(DemandeReservation));
+        demande.type = 8;
+        demande.user_id = user_id;
+        
+        if (envoyer_message(msgid_demande, &demande, sizeof(DemandeReservation) - sizeof(long)) != -1) {
+            if (recevoir_message(msgid_reponse, &reponse, sizeof(ReponseReservation) - sizeof(long), user_id) != -1) {
+                solde_actuel = reponse.solde_restant;
+            }
         }
     } while (choix != 5);
 }

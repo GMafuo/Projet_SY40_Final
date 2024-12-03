@@ -4,7 +4,7 @@
 # compile C with /usr/bin/cc
 C_DEFINES = 
 
-C_INCLUDES = -I/home/mathiew/Projet_SY40_Final/Include
+C_INCLUDES = -I/home/shan/Projet_SY40_Final/Include
 
 C_FLAGS =  -pthread
 

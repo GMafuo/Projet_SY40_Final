@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/mathiew/Projet_SY40_Final
+CMAKE_SOURCE_DIR = /home/shan/Projet_SY40_Final
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/mathiew/Projet_SY40_Final/build
+CMAKE_BINARY_DIR = /home/shan/Projet_SY40_Final/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/client.dir/depend.make
@@ -70,46 +70,46 @@ include CMakeFiles/client.dir/progress.make
 include CMakeFiles/client.dir/flags.make
 
 CMakeFiles/client.dir/client.c.o: CMakeFiles/client.dir/flags.make
-CMakeFiles/client.dir/client.c.o: /home/mathiew/Projet_SY40_Final/client.c
+CMakeFiles/client.dir/client.c.o: /home/shan/Projet_SY40_Final/client.c
 CMakeFiles/client.dir/client.c.o: CMakeFiles/client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mathiew/Projet_SY40_Final/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/client.dir/client.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/client.dir/client.c.o -MF CMakeFiles/client.dir/client.c.o.d -o CMakeFiles/client.dir/client.c.o -c /home/mathiew/Projet_SY40_Final/client.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/shan/Projet_SY40_Final/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/client.dir/client.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/client.dir/client.c.o -MF CMakeFiles/client.dir/client.c.o.d -o CMakeFiles/client.dir/client.c.o -c /home/shan/Projet_SY40_Final/client.c
 
 CMakeFiles/client.dir/client.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/client.dir/client.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/mathiew/Projet_SY40_Final/client.c > CMakeFiles/client.dir/client.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/shan/Projet_SY40_Final/client.c > CMakeFiles/client.dir/client.c.i
 
 CMakeFiles/client.dir/client.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/client.dir/client.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/mathiew/Projet_SY40_Final/client.c -o CMakeFiles/client.dir/client.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/shan/Projet_SY40_Final/client.c -o CMakeFiles/client.dir/client.c.s
 
 CMakeFiles/client.dir/Sources/ipc_utils.c.o: CMakeFiles/client.dir/flags.make
-CMakeFiles/client.dir/Sources/ipc_utils.c.o: /home/mathiew/Projet_SY40_Final/Sources/ipc_utils.c
+CMakeFiles/client.dir/Sources/ipc_utils.c.o: /home/shan/Projet_SY40_Final/Sources/ipc_utils.c
 CMakeFiles/client.dir/Sources/ipc_utils.c.o: CMakeFiles/client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mathiew/Projet_SY40_Final/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/client.dir/Sources/ipc_utils.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/client.dir/Sources/ipc_utils.c.o -MF CMakeFiles/client.dir/Sources/ipc_utils.c.o.d -o CMakeFiles/client.dir/Sources/ipc_utils.c.o -c /home/mathiew/Projet_SY40_Final/Sources/ipc_utils.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/shan/Projet_SY40_Final/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/client.dir/Sources/ipc_utils.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/client.dir/Sources/ipc_utils.c.o -MF CMakeFiles/client.dir/Sources/ipc_utils.c.o.d -o CMakeFiles/client.dir/Sources/ipc_utils.c.o -c /home/shan/Projet_SY40_Final/Sources/ipc_utils.c
 
 CMakeFiles/client.dir/Sources/ipc_utils.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/client.dir/Sources/ipc_utils.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/mathiew/Projet_SY40_Final/Sources/ipc_utils.c > CMakeFiles/client.dir/Sources/ipc_utils.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/shan/Projet_SY40_Final/Sources/ipc_utils.c > CMakeFiles/client.dir/Sources/ipc_utils.c.i
 
 CMakeFiles/client.dir/Sources/ipc_utils.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/client.dir/Sources/ipc_utils.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/mathiew/Projet_SY40_Final/Sources/ipc_utils.c -o CMakeFiles/client.dir/Sources/ipc_utils.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/shan/Projet_SY40_Final/Sources/ipc_utils.c -o CMakeFiles/client.dir/Sources/ipc_utils.c.s
 
 CMakeFiles/client.dir/Sources/spectacles.c.o: CMakeFiles/client.dir/flags.make
-CMakeFiles/client.dir/Sources/spectacles.c.o: /home/mathiew/Projet_SY40_Final/Sources/spectacles.c
+CMakeFiles/client.dir/Sources/spectacles.c.o: /home/shan/Projet_SY40_Final/Sources/spectacles.c
 CMakeFiles/client.dir/Sources/spectacles.c.o: CMakeFiles/client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mathiew/Projet_SY40_Final/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/client.dir/Sources/spectacles.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/client.dir/Sources/spectacles.c.o -MF CMakeFiles/client.dir/Sources/spectacles.c.o.d -o CMakeFiles/client.dir/Sources/spectacles.c.o -c /home/mathiew/Projet_SY40_Final/Sources/spectacles.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/shan/Projet_SY40_Final/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/client.dir/Sources/spectacles.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/client.dir/Sources/spectacles.c.o -MF CMakeFiles/client.dir/Sources/spectacles.c.o.d -o CMakeFiles/client.dir/Sources/spectacles.c.o -c /home/shan/Projet_SY40_Final/Sources/spectacles.c
 
 CMakeFiles/client.dir/Sources/spectacles.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/client.dir/Sources/spectacles.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/mathiew/Projet_SY40_Final/Sources/spectacles.c > CMakeFiles/client.dir/Sources/spectacles.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/shan/Projet_SY40_Final/Sources/spectacles.c > CMakeFiles/client.dir/Sources/spectacles.c.i
 
 CMakeFiles/client.dir/Sources/spectacles.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/client.dir/Sources/spectacles.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/mathiew/Projet_SY40_Final/Sources/spectacles.c -o CMakeFiles/client.dir/Sources/spectacles.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/shan/Projet_SY40_Final/Sources/spectacles.c -o CMakeFiles/client.dir/Sources/spectacles.c.s
 
 # Object files for target client
 client_OBJECTS = \
@@ -125,7 +125,7 @@ client: CMakeFiles/client.dir/Sources/ipc_utils.c.o
 client: CMakeFiles/client.dir/Sources/spectacles.c.o
 client: CMakeFiles/client.dir/build.make
 client: CMakeFiles/client.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mathiew/Projet_SY40_Final/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking C executable client"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/shan/Projet_SY40_Final/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking C executable client"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/client.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -137,6 +137,6 @@ CMakeFiles/client.dir/clean:
 .PHONY : CMakeFiles/client.dir/clean
 
 CMakeFiles/client.dir/depend:
-	cd /home/mathiew/Projet_SY40_Final/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/mathiew/Projet_SY40_Final /home/mathiew/Projet_SY40_Final /home/mathiew/Projet_SY40_Final/build /home/mathiew/Projet_SY40_Final/build /home/mathiew/Projet_SY40_Final/build/CMakeFiles/client.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/shan/Projet_SY40_Final/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/shan/Projet_SY40_Final /home/shan/Projet_SY40_Final /home/shan/Projet_SY40_Final/build /home/shan/Projet_SY40_Final/build /home/shan/Projet_SY40_Final/build/CMakeFiles/client.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/client.dir/depend
 

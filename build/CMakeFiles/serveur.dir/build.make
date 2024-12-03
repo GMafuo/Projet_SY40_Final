@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/mathiew/Projet_SY40_Final
+CMAKE_SOURCE_DIR = /home/shan/Projet_SY40_Final
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/mathiew/Projet_SY40_Final/build
+CMAKE_BINARY_DIR = /home/shan/Projet_SY40_Final/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/serveur.dir/depend.make
@@ -70,46 +70,46 @@ include CMakeFiles/serveur.dir/progress.make
 include CMakeFiles/serveur.dir/flags.make
 
 CMakeFiles/serveur.dir/Sources/main.c.o: CMakeFiles/serveur.dir/flags.make
-CMakeFiles/serveur.dir/Sources/main.c.o: /home/mathiew/Projet_SY40_Final/Sources/main.c
+CMakeFiles/serveur.dir/Sources/main.c.o: /home/shan/Projet_SY40_Final/Sources/main.c
 CMakeFiles/serveur.dir/Sources/main.c.o: CMakeFiles/serveur.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mathiew/Projet_SY40_Final/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/serveur.dir/Sources/main.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/serveur.dir/Sources/main.c.o -MF CMakeFiles/serveur.dir/Sources/main.c.o.d -o CMakeFiles/serveur.dir/Sources/main.c.o -c /home/mathiew/Projet_SY40_Final/Sources/main.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/shan/Projet_SY40_Final/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/serveur.dir/Sources/main.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/serveur.dir/Sources/main.c.o -MF CMakeFiles/serveur.dir/Sources/main.c.o.d -o CMakeFiles/serveur.dir/Sources/main.c.o -c /home/shan/Projet_SY40_Final/Sources/main.c
 
 CMakeFiles/serveur.dir/Sources/main.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/serveur.dir/Sources/main.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/mathiew/Projet_SY40_Final/Sources/main.c > CMakeFiles/serveur.dir/Sources/main.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/shan/Projet_SY40_Final/Sources/main.c > CMakeFiles/serveur.dir/Sources/main.c.i
 
 CMakeFiles/serveur.dir/Sources/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/serveur.dir/Sources/main.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/mathiew/Projet_SY40_Final/Sources/main.c -o CMakeFiles/serveur.dir/Sources/main.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/shan/Projet_SY40_Final/Sources/main.c -o CMakeFiles/serveur.dir/Sources/main.c.s
 
 CMakeFiles/serveur.dir/Sources/ipc_utils.c.o: CMakeFiles/serveur.dir/flags.make
-CMakeFiles/serveur.dir/Sources/ipc_utils.c.o: /home/mathiew/Projet_SY40_Final/Sources/ipc_utils.c
+CMakeFiles/serveur.dir/Sources/ipc_utils.c.o: /home/shan/Projet_SY40_Final/Sources/ipc_utils.c
 CMakeFiles/serveur.dir/Sources/ipc_utils.c.o: CMakeFiles/serveur.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mathiew/Projet_SY40_Final/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/serveur.dir/Sources/ipc_utils.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/serveur.dir/Sources/ipc_utils.c.o -MF CMakeFiles/serveur.dir/Sources/ipc_utils.c.o.d -o CMakeFiles/serveur.dir/Sources/ipc_utils.c.o -c /home/mathiew/Projet_SY40_Final/Sources/ipc_utils.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/shan/Projet_SY40_Final/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/serveur.dir/Sources/ipc_utils.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/serveur.dir/Sources/ipc_utils.c.o -MF CMakeFiles/serveur.dir/Sources/ipc_utils.c.o.d -o CMakeFiles/serveur.dir/Sources/ipc_utils.c.o -c /home/shan/Projet_SY40_Final/Sources/ipc_utils.c
 
 CMakeFiles/serveur.dir/Sources/ipc_utils.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/serveur.dir/Sources/ipc_utils.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/mathiew/Projet_SY40_Final/Sources/ipc_utils.c > CMakeFiles/serveur.dir/Sources/ipc_utils.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/shan/Projet_SY40_Final/Sources/ipc_utils.c > CMakeFiles/serveur.dir/Sources/ipc_utils.c.i
 
 CMakeFiles/serveur.dir/Sources/ipc_utils.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/serveur.dir/Sources/ipc_utils.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/mathiew/Projet_SY40_Final/Sources/ipc_utils.c -o CMakeFiles/serveur.dir/Sources/ipc_utils.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/shan/Projet_SY40_Final/Sources/ipc_utils.c -o CMakeFiles/serveur.dir/Sources/ipc_utils.c.s
 
 CMakeFiles/serveur.dir/Sources/spectacles.c.o: CMakeFiles/serveur.dir/flags.make
-CMakeFiles/serveur.dir/Sources/spectacles.c.o: /home/mathiew/Projet_SY40_Final/Sources/spectacles.c
+CMakeFiles/serveur.dir/Sources/spectacles.c.o: /home/shan/Projet_SY40_Final/Sources/spectacles.c
 CMakeFiles/serveur.dir/Sources/spectacles.c.o: CMakeFiles/serveur.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mathiew/Projet_SY40_Final/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/serveur.dir/Sources/spectacles.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/serveur.dir/Sources/spectacles.c.o -MF CMakeFiles/serveur.dir/Sources/spectacles.c.o.d -o CMakeFiles/serveur.dir/Sources/spectacles.c.o -c /home/mathiew/Projet_SY40_Final/Sources/spectacles.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/shan/Projet_SY40_Final/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/serveur.dir/Sources/spectacles.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/serveur.dir/Sources/spectacles.c.o -MF CMakeFiles/serveur.dir/Sources/spectacles.c.o.d -o CMakeFiles/serveur.dir/Sources/spectacles.c.o -c /home/shan/Projet_SY40_Final/Sources/spectacles.c
 
 CMakeFiles/serveur.dir/Sources/spectacles.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/serveur.dir/Sources/spectacles.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/mathiew/Projet_SY40_Final/Sources/spectacles.c > CMakeFiles/serveur.dir/Sources/spectacles.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/shan/Projet_SY40_Final/Sources/spectacles.c > CMakeFiles/serveur.dir/Sources/spectacles.c.i
 
 CMakeFiles/serveur.dir/Sources/spectacles.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/serveur.dir/Sources/spectacles.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/mathiew/Projet_SY40_Final/Sources/spectacles.c -o CMakeFiles/serveur.dir/Sources/spectacles.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/shan/Projet_SY40_Final/Sources/spectacles.c -o CMakeFiles/serveur.dir/Sources/spectacles.c.s
 
 # Object files for target serveur
 serveur_OBJECTS = \
@@ -125,7 +125,7 @@ serveur: CMakeFiles/serveur.dir/Sources/ipc_utils.c.o
 serveur: CMakeFiles/serveur.dir/Sources/spectacles.c.o
 serveur: CMakeFiles/serveur.dir/build.make
 serveur: CMakeFiles/serveur.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mathiew/Projet_SY40_Final/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking C executable serveur"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/shan/Projet_SY40_Final/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking C executable serveur"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/serveur.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -137,6 +137,6 @@ CMakeFiles/serveur.dir/clean:
 .PHONY : CMakeFiles/serveur.dir/clean
 
 CMakeFiles/serveur.dir/depend:
-	cd /home/mathiew/Projet_SY40_Final/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/mathiew/Projet_SY40_Final /home/mathiew/Projet_SY40_Final /home/mathiew/Projet_SY40_Final/build /home/mathiew/Projet_SY40_Final/build /home/mathiew/Projet_SY40_Final/build/CMakeFiles/serveur.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/shan/Projet_SY40_Final/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/shan/Projet_SY40_Final /home/shan/Projet_SY40_Final /home/shan/Projet_SY40_Final/build /home/shan/Projet_SY40_Final/build /home/shan/Projet_SY40_Final/build/CMakeFiles/serveur.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/serveur.dir/depend
 

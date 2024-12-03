@@ -54,10 +54,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/mathiew/Projet_SY40_Final
+CMAKE_SOURCE_DIR = /home/shan/Projet_SY40_Final
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/mathiew/Projet_SY40_Final/build
+CMAKE_BINARY_DIR = /home/shan/Projet_SY40_Final/build
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -83,14 +83,14 @@ clean: CMakeFiles/client.dir/clean
 CMakeFiles/serveur.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/serveur.dir/build.make CMakeFiles/serveur.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mathiew/Projet_SY40_Final/build/CMakeFiles --progress-num=5,6,7,8 "Built target serveur"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shan/Projet_SY40_Final/build/CMakeFiles --progress-num=5,6,7,8 "Built target serveur"
 .PHONY : CMakeFiles/serveur.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/serveur.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mathiew/Projet_SY40_Final/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/shan/Projet_SY40_Final/build/CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/serveur.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mathiew/Projet_SY40_Final/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/shan/Projet_SY40_Final/build/CMakeFiles 0
 .PHONY : CMakeFiles/serveur.dir/rule
 
 # Convenience name for target.
@@ -109,14 +109,14 @@ CMakeFiles/serveur.dir/clean:
 CMakeFiles/client.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mathiew/Projet_SY40_Final/build/CMakeFiles --progress-num=1,2,3,4 "Built target client"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shan/Projet_SY40_Final/build/CMakeFiles --progress-num=1,2,3,4 "Built target client"
 .PHONY : CMakeFiles/client.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/client.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mathiew/Projet_SY40_Final/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/shan/Projet_SY40_Final/build/CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/client.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mathiew/Projet_SY40_Final/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/shan/Projet_SY40_Final/build/CMakeFiles 0
 .PHONY : CMakeFiles/client.dir/rule
 
 # Convenience name for target.

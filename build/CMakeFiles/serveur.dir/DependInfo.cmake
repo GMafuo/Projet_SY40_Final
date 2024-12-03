@@ -8,9 +8,9 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/mathiew/Projet_SY40_Final/Sources/ipc_utils.c" "CMakeFiles/serveur.dir/Sources/ipc_utils.c.o" "gcc" "CMakeFiles/serveur.dir/Sources/ipc_utils.c.o.d"
-  "/home/mathiew/Projet_SY40_Final/Sources/main.c" "CMakeFiles/serveur.dir/Sources/main.c.o" "gcc" "CMakeFiles/serveur.dir/Sources/main.c.o.d"
-  "/home/mathiew/Projet_SY40_Final/Sources/spectacles.c" "CMakeFiles/serveur.dir/Sources/spectacles.c.o" "gcc" "CMakeFiles/serveur.dir/Sources/spectacles.c.o.d"
+  "/home/shan/Projet_SY40_Final/Sources/ipc_utils.c" "CMakeFiles/serveur.dir/Sources/ipc_utils.c.o" "gcc" "CMakeFiles/serveur.dir/Sources/ipc_utils.c.o.d"
+  "/home/shan/Projet_SY40_Final/Sources/main.c" "CMakeFiles/serveur.dir/Sources/main.c.o" "gcc" "CMakeFiles/serveur.dir/Sources/main.c.o.d"
+  "/home/shan/Projet_SY40_Final/Sources/spectacles.c" "CMakeFiles/serveur.dir/Sources/spectacles.c.o" "gcc" "CMakeFiles/serveur.dir/Sources/spectacles.c.o.d"
   )
 
 # Targets to which this target links.

@@ -228,6 +228,17 @@ void traiter_demandes_reservation(Spectacle spectacles[], int nb_spectacles) {
                     }
                 }
                 break;
+
+            case 8: // Obtenir le solde
+                {
+                    reponse.type = demande.user_id;
+                    reponse.solde_restant = obtenir_solde_utilisateur(demande.user_id);
+                    
+                    if (envoyer_message(msgid_reponse, &reponse, sizeof(ReponseReservation) - sizeof(long)) == -1) {
+                        perror("Erreur : Envoi du solde échoué");
+                    }
+                }
+                break;
         }
     }
 }

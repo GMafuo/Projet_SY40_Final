@@ -1,6 +1,5 @@
-CMakeFiles/client.dir/client.c.o: \
- /home/mathiew/Projet_SY40_Final/client.c /usr/include/stdc-predef.h \
- /usr/include/stdio.h \
+CMakeFiles/client.dir/client.c.o: /home/shan/Projet_SY40_Final/client.c \
+ /usr/include/stdc-predef.h /usr/include/stdio.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
@@ -62,13 +61,13 @@ CMakeFiles/client.dir/client.c.o: \
  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
- /home/mathiew/Projet_SY40_Final/Include/../Include/spectacles.h \
+ /home/shan/Projet_SY40_Final/Include/../Include/spectacles.h \
  /usr/include/semaphore.h /usr/include/x86_64-linux-gnu/bits/semaphore.h \
  /usr/include/fcntl.h /usr/include/x86_64-linux-gnu/bits/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
  /usr/include/x86_64-linux-gnu/bits/stat.h \
  /usr/include/x86_64-linux-gnu/bits/struct_stat.h \
- /home/mathiew/Projet_SY40_Final/Include/../Include/ipc_utils.h \
+ /home/shan/Projet_SY40_Final/Include/../Include/ipc_utils.h \
  /usr/include/string.h \
  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \

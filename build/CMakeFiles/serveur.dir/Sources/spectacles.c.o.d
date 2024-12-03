@@ -1,7 +1,7 @@
 CMakeFiles/serveur.dir/Sources/spectacles.c.o: \
- /home/mathiew/Projet_SY40_Final/Sources/spectacles.c \
+ /home/shan/Projet_SY40_Final/Sources/spectacles.c \
  /usr/include/stdc-predef.h \
- /home/mathiew/Projet_SY40_Final/Sources/../Include/spectacles.h \
+ /home/shan/Projet_SY40_Final/Sources/../Include/spectacles.h \
  /usr/include/semaphore.h /usr/include/features.h \
  /usr/include/features-time64.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \

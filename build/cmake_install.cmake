@@ -1,4 +1,4 @@
-# Install script for directory: /home/mathiew/Projet_SY40_Final
+# Install script for directory: /home/shan/Projet_SY40_Final
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/mathiew/Projet_SY40_Final/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/shan/Projet_SY40_Final/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

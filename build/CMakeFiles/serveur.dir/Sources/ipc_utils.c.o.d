@@ -1,7 +1,7 @@
 CMakeFiles/serveur.dir/Sources/ipc_utils.c.o: \
- /home/mathiew/Projet_SY40_Final/Sources/ipc_utils.c \
+ /home/shan/Projet_SY40_Final/Sources/ipc_utils.c \
  /usr/include/stdc-predef.h \
- /home/mathiew/Projet_SY40_Final/Sources/../Include/ipc_utils.h \
+ /home/shan/Projet_SY40_Final/Sources/../Include/ipc_utils.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
  /usr/include/x86_64-linux-gnu/sys/msg.h /usr/include/features.h \
  /usr/include/features-time64.h \
