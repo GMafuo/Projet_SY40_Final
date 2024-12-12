@@ -21,13 +21,13 @@ Ce projet implémente un simulateur de distributeur automatique de tickets pour 
 
 1. Cloner le dépôt :
 ```bash
-git clone [url-du-depot]
+git clone git@github.com:GMafuo/Projet_SY40_Final.git
 cd Projet_SY40_Final
 ```
 
 2. Compiler le projet :
 ```bash
-mkdir build && cd build
+cd build
 cmake ..
 make
 ```
