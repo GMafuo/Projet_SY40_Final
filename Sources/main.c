@@ -1,9 +1,5 @@
-/*
- * Serveur de réservation pour le distributeur de tickets
- * - Reçoit les demandes de réservation des clients
- * - Vérifie les places disponibles et confirme ou propose une alternative
- * - Gestion des spectacles et des réservations
- */
+// Serveur principal de gestion des réservations de spectacles
+// Gère les demandes des clients, les réservations et la base de données utilisateurs
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,42 +9,42 @@
 #include "../Include/spectacles.h"
 #include "../Include/ipc_utils.h"
 
-int msgid_demande, msgid_reponse;
-User users[MAX_USERS];
-int nb_users = 0;
-sem_t *sem_spectacles;
-sem_t *sem_users;
+// Variables globales pour le système
+int msgid_demande, msgid_reponse;    // Files de messages pour la communication
+User users[MAX_USERS];               // Base de données des utilisateurs
+int nb_users = 0;                    // Nombre d'utilisateurs enregistrés
+sem_t *sem_spectacles;               // Sémaphore pour protéger l'accès aux spectacles
+sem_t *sem_users;                    // Sémaphore pour protéger l'accès aux utilisateurs
 
-// Fonction de nettoyage pour supprimer les files de messages à la fin
+// Fonction appelée à la fermeture du programme pour nettoyer les ressources
 void nettoyer_ressources() {
     delete_msg_queue(msgid_demande);
     delete_msg_queue(msgid_reponse);
-    
-    // Fermer et supprimer les sémaphores
     sem_close(sem_spectacles);
     sem_close(sem_users);
     sem_unlink(SEM_SPECTACLES);
     sem_unlink(SEM_USERS);
 }
 
-// Fonction principale de traitement des demandes de réservation
+// Fonction principale de traitement des demandes clients
 void traiter_demandes_reservation(Spectacle spectacles[], int nb_spectacles) {
     DemandeReservation demande;
     ReponseReservation reponse;
 
     while (1) {
-        // Lire la demande dans la file de messages
+        // Attend et lit une nouvelle demande
         if (recevoir_message(msgid_demande, &demande, sizeof(DemandeReservation) - sizeof(long), 0) == -1) {
             perror("Erreur : Impossible de recevoir la demande");
             continue;
         }
 
-        // Initialise la réponse
+        // Initialise la réponse avec l'ID du client
         reponse.type = demande.user_id;
         reponse.success = 0;
 
+        // Traite la demande selon son type
         switch(demande.type) {
-            case 1: // Réservation
+            case 1: // Nouvelle réservation
                 {
                     memset(&reponse, 0, sizeof(ReponseReservation));
                     reponse.type = demande.user_id;
@@ -103,7 +99,7 @@ void traiter_demandes_reservation(Spectacle spectacles[], int nb_spectacles) {
                 }
                 break;
 
-            case 2: // Annulation
+            case 2: // Annulation de réservation
                 if (demande.spectacle_id < nb_spectacles) {
                     double prix_remboursement = obtenir_prix_categorie(demande.categorie);
                     
@@ -124,7 +120,7 @@ void traiter_demandes_reservation(Spectacle spectacles[], int nb_spectacles) {
                 }
                 break;
 
-            case 3: // Modification
+            case 3: // Modification de réservation
                 if (demande.spectacle_id < nb_spectacles) {
                     double ancien_prix = obtenir_prix_categorie(demande.categorie);
                     double nouveau_prix = obtenir_prix_categorie(demande.new_categorie);
@@ -170,7 +166,7 @@ void traiter_demandes_reservation(Spectacle spectacles[], int nb_spectacles) {
                 }
                 break;
 
-            case 5: // Consultation des réservations
+            case 5: // Liste des réservations d'un utilisateur
                 {
                     int found = 0;
                     for (int i = 0; i < nb_spectacles; i++) {
@@ -199,7 +195,7 @@ void traiter_demandes_reservation(Spectacle spectacles[], int nb_spectacles) {
                 }
                 break;
 
-            case 6: // Connexion
+            case 6: // Connexion utilisateur
                 {
                     int user_id = verifier_credentials(demande.username, demande.password);
                     reponse.type = demande.user_id;
@@ -229,7 +225,7 @@ void traiter_demandes_reservation(Spectacle spectacles[], int nb_spectacles) {
                 }
                 break;
 
-            case 8: // Obtenir le solde
+            case 8: // Consultation du solde
                 {
                     reponse.type = demande.user_id;
                     reponse.solde_restant = obtenir_solde_utilisateur(demande.user_id);
@@ -243,6 +239,7 @@ void traiter_demandes_reservation(Spectacle spectacles[], int nb_spectacles) {
     }
 }
 
+// Vérifie les identifiants de connexion d'un utilisateur
 int verifier_credentials(const char *username, const char *password) {
     for (int i = 0; i < nb_users; i++) {
         if (strcmp(users[i].username, username) == 0 && 
@@ -254,10 +251,11 @@ int verifier_credentials(const char *username, const char *password) {
     return -1;
 }
 
+// Crée un nouveau compte utilisateur
 int creer_utilisateur(const char *username, const char *password, double solde_initial) {
     sem_wait(sem_users);
     
-    // Vérifie si username existe déjà
+    // Vérifie si le nom d'utilisateur existe déjà
     for (int i = 0; i < nb_users; i++) {
         if (strcmp(users[i].username, username) == 0) {
             sem_post(sem_users);
@@ -341,26 +339,29 @@ int effectuer_paiement(int user_id, int categorie) {
 }
 
 int main() {
+    // Initialisation des files de messages
     msgid_demande = create_msg_queue(MSG_KEY_DEMANDE);
     msgid_reponse = create_msg_queue(MSG_KEY_REPONSE);
 
+    // Enregistre la fonction de nettoyage
     atexit(nettoyer_ressources);
 
-    // Initialiser les sémaphores
+    // Création des sémaphores
     sem_spectacles = sem_open(SEM_SPECTACLES, O_CREAT, 0666, 1);
     sem_users = sem_open(SEM_USERS, O_CREAT, 0666, 1);
     
+    // Vérifie la création des sémaphores
     if (sem_spectacles == SEM_FAILED || sem_users == SEM_FAILED) {
         perror("Erreur création sémaphores");
         exit(1);
     }
 
-    // Initialise les spectacles
+    // Initialisation des spectacles avec leurs places
     Spectacle spectacles[4] = {
-        {0, {5, 3, 2}}, // Concert de musique classique
-        {1, {2, 4, 1}}, // Pièce de théâtre
-        {2, {3, 5, 2}}, // Magie - Speculous rapidous
-        {3, {1, 6, 12}} // World League of Legends
+        {0, {5, 3, 2}}, // Concert classique
+        {1, {2, 4, 1}}, // Théâtre
+        {2, {3, 5, 2}}, // Spectacle de magie
+        {3, {1, 6, 12}} // E-sport
     };
 
     printf("Serveur prêt à recevoir des demandes...\n");

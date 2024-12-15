@@ -1,9 +1,7 @@
-/*
- * Client pour le distributeur de tickets
- * - Envoie une demande de réservation au serveur
- * - Reçoit la confirmation ou une alternative de réservation
- * - Affiche le statut de la réservation à l'utilisateur
- */
+// Client pour le distributeur de tickets
+// - Envoie des demandes de réservation au serveur
+// - Reçoit les confirmations ou alternatives de réservation
+// - Affiche le statut des réservations à l'utilisateur
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,6 +11,7 @@
 #include "../Include/ipc_utils.h"
 #include <string.h>
 
+// Affiche le menu principal avec le solde actuel
 static void afficher_menu(double solde) {
     static const char *menu = "\nMenu:\n"
                              "Votre solde: %.2f€\n"
@@ -24,6 +23,7 @@ static void afficher_menu(double solde) {
     printf(menu, solde);
 }
 
+// Affiche la liste des spectacles disponibles
 static void afficher_liste_spectacles(void) {
     static const char *spectacles = "\nSpectacles disponibles :\n"
                                   "------------------------\n"
@@ -35,6 +35,7 @@ static void afficher_liste_spectacles(void) {
     printf("%s", spectacles);
 }
 
+// Gère l'envoi et la réception des messages avec le serveur
 inline int gerer_message(int msgid, void *msg, size_t size, long type, int envoi) {
     int ret = envoi ? 
         envoyer_message(msgid, msg, size) : 
@@ -47,6 +48,7 @@ inline int gerer_message(int msgid, void *msg, size_t size, long type, int envoi
     return 1;
 }
 
+// Simule le processus de paiement avec délai
 int simuler_paiement(int msgid_demande, int msgid_reponse, int user_id, int categorie) {
     printf("\nTraitement du paiement en cours");
     for (int i = 0; i < 3; i++) {
@@ -58,21 +60,24 @@ int simuler_paiement(int msgid_demande, int msgid_reponse, int user_id, int cate
     return 1;
 }
 
+// Gère le processus de réservation d'un billet
 void reserver_billet(int msgid_demande, int msgid_reponse, int user_id) {
     DemandeReservation demande;
     ReponseReservation reponse;
 
+// Affiche les options disponibles
     afficher_liste_spectacles();
-
     printf("\nCatégories disponibles :\n");
     printf("------------------------\n");
     printf("0 - VIP       : 100€\n");
     printf("1 - Standard  : 50€\n");
     printf("2 - Économique: 25€\n");
 
+    // Collecte les informations de réservation    
     demande.user_id = user_id;
     printf("\nRéservation pour l'utilisateur ID: %d\n", user_id);
 
+    // Demande et vérifie l'ID du spectacle
     do {
         printf("\nEntrez l'ID du spectacle (0 à 3): ");
         scanf("%d", &demande.spectacle_id);
@@ -554,7 +559,9 @@ void gerer_menu_principal(int msgid_demande, int msgid_reponse, int user_id) {
     } while (choix != 5);
 }
 
+// Point d'entrée du programme client
 int main() {
+    // Connexion aux files de messages du serveur
     int msgid_demande = msgget(MSG_KEY_DEMANDE, 0666);
     int msgid_reponse = msgget(MSG_KEY_REPONSE, 0666);
     if (msgid_demande == -1 || msgid_reponse == -1) {
@@ -565,25 +572,26 @@ int main() {
     int choix;
     int user_id = -1;
     
+    // Boucle principale du menu de connexion
     do {
         afficher_menu_connexion();
         printf("Votre choix: ");
         scanf("%d", &choix);
         
         switch(choix) {
-            case 1:
+            case 1: // Connexion
                 user_id = connecter_utilisateur(msgid_demande, msgid_reponse);
                 if (user_id != -1) {
                     gerer_menu_principal(msgid_demande, msgid_reponse, user_id);
                 }
                 break;
-            case 2:
+            case 2: // Création de compte
                 user_id = creer_compte(msgid_demande, msgid_reponse);
                 if (user_id != -1) {
                     gerer_menu_principal(msgid_demande, msgid_reponse, user_id);
                 }
                 break;
-            case 3:
+            case 3: // Quitter
                 printf("Au revoir!\n");
                 break;
             default:
